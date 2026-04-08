@@ -1,16 +1,13 @@
 [project]
 name = "warehouse-inventory-env"
 version = "0.1.0"
-description = "OpenEnv Warehouse Inventory Environment"
-authors = [
-    { name = "Your Name" }
-]
+description = "Warehouse Inventory OpenEnv Environment"
 dependencies = [
-    "pydantic",
     "fastapi",
     "uvicorn",
-    "openai"
+    "pydantic",
+    "openenv-core>=0.2.0"
 ]
 
-[tool.setuptools]
-py-modules = ["warehouse_env"]
+[project.scripts]
+server = "server.app:main"
