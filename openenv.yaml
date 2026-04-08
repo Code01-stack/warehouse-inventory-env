@@ -1,0 +1,41 @@
+name: warehouse_inventory_env
+description: A real-world reinforcement learning environment for warehouse inventory optimization, focusing on stock management, demand fulfillment, and expiry handling.
+version: 1.0.0
+
+entrypoint: warehouse_env:WarehouseEnv
+
+tasks:
+  - id: easy
+    description: Restock items with low inventory levels.
+    difficulty: easy
+
+  - id: medium
+    description: Prioritize dispatch of items nearing expiry.
+    difficulty: medium
+
+  - id: hard
+    description: Simultaneously manage low stock, high demand, and expiring inventory.
+    difficulty: hard
+
+action_space:
+  type: object
+  properties:
+    action:
+      type: string
+      enum: [restock, prioritize_dispatch, restock_and_dispatch]
+    item_name:
+      type: string
+
+observation_space:
+  type: object
+  properties:
+    task:
+      type: string
+    step:
+      type: integer
+    items:
+      type: array
+
+reward_range: [0.0, 1.0]
+
+max_steps: 5
