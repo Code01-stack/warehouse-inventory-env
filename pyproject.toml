@@ -1,0 +1,16 @@
+[project]
+name = "warehouse-inventory-env"
+version = "0.1.0"
+description = "OpenEnv Warehouse Inventory Environment"
+authors = [
+    { name = "Your Name" }
+]
+dependencies = [
+    "pydantic",
+    "fastapi",
+    "uvicorn",
+    "openai"
+]
+
+[tool.setuptools]
+py-modules = ["warehouse_env"]
