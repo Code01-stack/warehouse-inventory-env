@@ -1,65 +1,90 @@
----
-title: Warehouse Inventory Env
-emoji: 📦
-colorFrom: blue
-colorTo: green
-sdk: docker
-app_file: app.py
-pinned: false
----
+# Warehouse Inventory Environment
 
-# 📦 Warehouse Inventory Environment
-
-A **real-world reinforcement learning environment** for optimizing warehouse inventory operations.  
-This environment simulates decision-making tasks such as restocking, dispatching, and managing expiring goods.
+A reinforcement learning environment that simulates real-world warehouse inventory management using the OpenEnv framework.
 
 ---
 
-## 🎯 Motivation
+## 📦 Overview
 
-Warehouse management is a critical real-world problem involving:
+This environment models a warehouse where an AI agent must manage inventory efficiently by:
 
-- Inventory optimization  
-- Demand fulfillment  
-- Waste reduction due to expiry  
+- Restocking low inventory items
+- Dispatching items nearing expiry
+- Handling combined constraints in complex scenarios
 
-This environment enables evaluation of agent reasoning in **logistics and supply chain scenarios**.
-
----
-
-## 🧠 Tasks (Difficulty Levels)
-
-### 🟢 Easy — Restocking
-- Objective: Identify low-stock items and restock them  
-- Reward:  
-  - ✅ Correct restock → 1.0  
-  - ⚠️ Partial progress → 0.3  
+It is designed to evaluate agent decision-making in logistics and supply chain management.
 
 ---
 
-### 🟡 Medium — Expiry Handling
-- Objective: Prioritize dispatch of items nearing expiry  
-- Reward:  
-  - ✅ Correct dispatch → 1.0  
-  - ⚠️ Partial signal → 0.3  
+## 🎯 Tasks
 
----
+The environment includes three tasks with increasing difficulty:
 
-### 🔴 Hard — Combined Optimization
-- Objective: Handle:
-  - Low stock  
-  - High demand  
-  - Expiring items  
-- Reward:
-  - ✅ Optimal action → 1.0  
-  - ⚠️ Partial progress → 0.3  
+### 🟢 Easy
+- Identify low-stock items
+- Perform restocking actions
+
+### 🟡 Medium
+- Identify items close to expiry
+- Prioritize dispatch before spoilage
+
+### 🔴 Hard
+- Handle items with:
+  - Low stock
+  - High demand
+  - Near expiry
+- Apply combined strategies (`restock_and_dispatch`)
 
 ---
 
 ## ⚙️ Action Space
 
-```json
-{
-  "action": "restock | prioritize_dispatch | restock_and_dispatch",
-  "item_name": "string"
-}
+Each action includes:
+
+- `action`:
+  - `restock`
+  - `prioritize_dispatch`
+  - `restock_and_dispatch`
+- `item_name`: Target inventory item
+
+---
+
+## 👀 Observation Space
+
+Each observation contains:
+
+- `task`: Current difficulty level
+- `step`: Current step number
+- `items`: List of items with:
+  - `item_name`
+  - `stock`
+  - `demand`
+  - `expiry_days`
+
+---
+
+## 🏆 Reward Function
+
+- ✅ +1.0 for correct action
+- ⚠️ +0.3 for partially correct decisions
+- ❌ 0.0 for incorrect actions
+
+Rewards provide continuous feedback and encourage optimal decision-making.
+
+---
+
+## 🔄 Episode Termination
+
+An episode ends when:
+
+- All inventory items are in a healthy state, OR
+- Maximum steps are reached
+
+---
+
+## 🤖 Baseline Inference
+
+Run:
+
+```bash
+python inference.py
